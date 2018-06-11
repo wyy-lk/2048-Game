@@ -25,8 +25,19 @@ int user_command()
 				case 66 : return 1;
 				case 67 : return 2;
 				case 68 : return 3;
-				default : return 5;
+				default : break;
 			}
+		}
+	}
+	else
+	{
+		switch(ch)
+		{
+			case 'w': return 0;
+			case 's': return 1;
+			case 'a': return 2;
+			case 'd': return 3;
+			default : break;
 		}
 	}
 	
