@@ -40,7 +40,7 @@ int main()
 	}
 	else
 	{
-		draw_lose(steps, points);
+		draw_lose();
 	}
 
 	return 0;

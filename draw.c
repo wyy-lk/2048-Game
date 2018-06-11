@@ -41,7 +41,7 @@ void draw_win()
 	"\033[1;31m\033[1;40m\33[5m            You win :)            \033[0m\n");
 }
 
-void draw_lose(int steps, int points)
+void draw_lose()
 {
 	printf(
 	"\033[1;31m\033[1;40m\33[5m            You lose :(           \033[0m\n");
