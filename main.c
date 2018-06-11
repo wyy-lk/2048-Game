@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include <unistd.h>
+
 #include "draw.h"
 #include "control.h"
 #include "game.h"
