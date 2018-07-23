@@ -35,8 +35,8 @@ int user_command()
 		{
 			case 'w': return 0;
 			case 's': return 1;
-			case 'a': return 2;
-			case 'd': return 3;
+			case 'd': return 2;
+			case 'a': return 3;
 			default : break;
 		}
 	}
