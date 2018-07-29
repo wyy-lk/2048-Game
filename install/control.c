@@ -21,10 +21,10 @@ int user_command()
 		{
 			switch(my_getch())
 			{
-				case 65 : return 0;
-				case 66 : return 1;
-				case 67 : return 2;
-				case 68 : return 3;
+				case 65 : return UP;
+				case 66 : return DOWN;
+				case 67 : return RIGHT;
+				case 68 : return LEFT;
 				default : break;
 			}
 		}
@@ -33,10 +33,15 @@ int user_command()
 	{
 		switch(ch)
 		{
-			case 'w': return 0;
-			case 's': return 1;
-			case 'd': return 2;
-			case 'a': return 3;
+			case 'w': return UP;
+			case 's': return DOWN;
+			case 'd': return RIGHT;
+			case 'a': return LEFT;
+			case ':': 
+				if(my_getch() == 'q')
+				{
+					return QUIT;
+				}
 			default : break;
 		}
 	}
@@ -46,17 +51,18 @@ int user_command()
 
 char my_getch()
 {
-        int c=0;  int res=0;
+        int c = 0;  
+		int res = 0;
         struct termios org_opts, new_opts;
-        res=tcgetattr(STDIN_FILENO, &org_opts);
-        assert(res==0);
+        res = tcgetattr(STDIN_FILENO, &org_opts);
+        assert(res == 0);
         memcpy(&new_opts, &org_opts, sizeof(new_opts));
         new_opts.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | 
 							  ECHOPRT | ECHOKE | ICRNL);
         tcsetattr(STDIN_FILENO, TCSANOW, &new_opts);
-        c=getchar();//
+        c=getchar();
         res=tcsetattr(STDIN_FILENO, TCSANOW, &org_opts);
-        assert(res==0);
+        assert(res == 0);
         return c;
 }
 

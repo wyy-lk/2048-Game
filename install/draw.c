@@ -1,137 +1,107 @@
-#include "draw.h"
 #include <stdio.h>
+#include "draw.h"
+#include "game.h"
 
-static void  dark_gray_block();
-static void  light_gray_block();
-static void  display1();
-static void  display2();
-static void  display3();
-static void  display_num(int a);
-static void  display_block(int a);
+#define draw_dark_line() printf("\t\033[1;40m%34s\033[0m\n","")
+#define draw_light_line() printf("\t\033[1;47m%34s\033[0m\n","")
+#define draw_light_block() printf("\033[1;47m  \033[0m");
+#define back_to_first_line() printf("\33[?25l\033[27A")
 
-void draw_from(int box[][4], int steps, int points)
+static void print_step_and_point(int step, int point);
+static void draw_2048(const int (*box)[4]);	
+static void draw_info(int state);	
+static void display_num(int a);
+static void display_block(int a);
+
+void draw_from (const int (*box)[4], int step, int point, int state)
 {
-	printf("\n");
-	display3();
-	printf("    ");
-	printf("\033[1;37m\033[1;40m points: %-12dsteps: %-6d\033[0m\n"
-			, points, steps);
-	display3();
-	display1();
+	print_step_and_point(step, point);
+	
+	draw_2048(box);	
+
+	draw_info(state);
+
+	back_to_first_line();
+}
+
+void clean_screen()
+{
+	printf("\033[2J");
+}
+
+void stop_draw()	
+{
+	printf("\33[?25l\33[27B");
+}
+
+void print_step_and_point(int step, int point)
+{				
+	//draw_dark_line();
+	printf("\t\033[1;40m%34s\033[0m\n","  __   __        __  ");
+	printf("\t\033[1;40m%34s\033[0m\n","  __| |  | |__| |__| ");
+	printf("\t\033[1;40m%34s\033[0m\n"," |__  |__|    | |__| ");
+	printf("\t\033[1;40m  Points: %-24d""\033[0m\n"			
+		"\t\033[1;40m  Steps: %-25d\033[0m\n", point, step);	
+	draw_dark_line(); 
+} 
+
+void draw_2048(const int (*box)[4])
+{			
+	draw_light_line(); 
 	for (int i = 0; i < 4; ++i)
 	{
-		printf("    ");
-		light_gray_block();
+		printf("\t");
 		for (int j = 0; j < 4; ++j)
 		{
-			light_gray_block();
+			draw_light_block();	
 			display_block(box[i][j]);
-			light_gray_block();
 		}
-		light_gray_block();
-		printf("\n");
+		draw_light_block();
 
-		printf("    ");
-		light_gray_block();
+		printf("\n\t");;
 		for (int j = 0; j < 4; ++j)
 		{
-			light_gray_block();
+			draw_light_block();
 			display_num(box[i][j]);
-			light_gray_block();
-		}	
-		light_gray_block();
-		printf("\n");
+		}
+		draw_light_block();
 
-		printf("    ");
-		light_gray_block();
+		printf("\n\t");
 		for (int j = 0; j < 4; ++j)
 		{
-			light_gray_block();
+			draw_light_block();
 			display_block(box[i][j]);
-			light_gray_block();
 		}
-		light_gray_block();
+		draw_light_block();
+
 		printf("\n");
-
-		display1();
-	}	
-	display3();
-	printf("    ");
-	printf("\033[1;37m\033[1;40m         Try to get 2048!         \033[0m\n"		  );
-	display3();
-}
-
-void draw_refresh(int box[][4], int steps, int points)
-{
-	printf("\33[?25l\33[24A");
-	draw_from(box, ++steps, points);
-}
-
-void draw_win()
-{
-	printf("    ");
-	printf("\33[?25l\33[2A");
-	printf(
-	"\033[1;31m\033[1;40m\33[5m            You win :)            \033[0m\n"
-	);
-	display3();
-}
-
-void draw_lose()
-{
-	printf("    ");
-	printf("\33[?25l\33[2A");
-	printf(
-	"\033[1;31m\033[1;40m\33[5m            You lose :(           \033[0m\n"
-	);
-	display3();
-}
-
-void dark_gray_block()
-{
-	printf("\033[1;40m \033[0m");
-}
-
-void light_gray_block()
-{
-	printf("\033[1;47m \033[0m");
-}
-
-void display1()
-{
-	printf("    ");
-	for (int i = 1; i <= 34; ++i)
-	{
-		light_gray_block();
+		draw_light_line();
 	}
-	printf("\n");
+
 }
 
-void display2()
+void draw_info(int state)
 {
-	printf("    ");
-	light_gray_block();
-	for(int i = 1; i <= 4; ++i)
-	{
-		light_gray_block();
-		for(int j = 1; j <= 6; ++j)
-		{
-			dark_gray_block();
-		}
-		light_gray_block();
-	}
-	light_gray_block();
-	printf("\n");
-}
+	draw_dark_line();		
 
-void display3()
-{
-	printf("    ");
-	for (int i = 1; i <= 34; ++i)
+	if (state == GAMING)		
 	{
-		dark_gray_block();
+		printf("\t\033[1;40m%2sControl whit WASD or Direction"
+			"%2s\033[0m\n", "", "");
+		printf("\t\033[1;40m%9sEnter :q to quit%9s\033[0m\n", "", "");
 	}
-	printf("\n");
+	else if (state == WIN)
+	{
+		printf("\t\033[1;40m%9sCongratulations!%9s\033[0m\n", "", "");
+		printf("\t\033[0;32m\33[1;40m%13sYOU WIN!%13s\033[0m\n", "", "");
+	}
+	else if (state == LOSE)	
+	{
+		printf("\t\033[1;40m%13sSorry...%13s\033[0m\n", "", "");
+		printf("\t\033[0;31m\33[1;40m%13sYOU LOSE%13s\033[0m\n", "", "");
+	}
+
+	draw_dark_line();
 }
 
 void display_num(int a)
