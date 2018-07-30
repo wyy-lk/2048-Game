@@ -25,6 +25,18 @@ int main()
 		{
 			break;
 		}
+		else if (key == SAVE)
+		{
+			save_game(box, steps, points);
+			draw_from(box, steps, points, game_status);
+			continue;
+		}
+		else if (key == READ)
+		{
+			set_game(box, &steps, &points);
+			draw_from(box, steps, points, game_status);
+			continue;
+		}
 
 		if ((step_points = merge(box, key)) != NOSCORE)
 		{		

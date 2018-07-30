@@ -8,5 +8,6 @@
 #include "draw.h"
 #include "control.h"
 #include "game.h"
+#include "file.h"
 
 #endif

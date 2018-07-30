@@ -3,6 +3,6 @@
 
 extern int user_command();
 
-enum KEY {UP, DOWN, RIGHT, LEFT, QUIT};
+enum KEY {UP, DOWN, RIGHT, LEFT, QUIT, SAVE, READ};
 
 #endif

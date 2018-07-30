@@ -86,9 +86,10 @@ void draw_info(int state)
 
 	if (state == GAMING)		
 	{
-		printf("\t\033[1;40m%2sControl whit WASD or Direction"
+		printf("\t\033[1;40m%2sControl with WASD or Direction"
 			"%2s\033[0m\n", "", "");
-		printf("\t\033[1;40m%9sEnter :q to quit%9s\033[0m\n", "", "");
+		printf("\t\033[1;40m%3s:q quit,  :s save,"
+			"  :r read %3s\033[0m\n", "", "");
 	}
 	else if (state == WIN)
 	{

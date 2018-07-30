@@ -38,9 +38,17 @@ int user_command()
 			case 'd': return RIGHT;
 			case 'a': return LEFT;
 			case ':': 
-				if(my_getch() == 'q')
+				if((ch = my_getch()) == 'q')
 				{
 					return QUIT;
+				}	
+				else if (ch == 's')
+				{
+					return SAVE;	
+				}
+				else if (ch == 'r')
+				{
+					return READ;	
 				}
 			default : break;
 		}
