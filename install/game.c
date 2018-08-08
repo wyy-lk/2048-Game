@@ -58,7 +58,7 @@ int check(int (*box)[4])
 	return ret;
 }
 
-int randnumber(int (*box)[4])
+void randnumber(int (*box)[4])
 {
 	int num = rand() % 5, cnt = 0, index;
 
