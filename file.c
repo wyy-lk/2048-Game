@@ -2,6 +2,7 @@
 
 #include "file.h"
 
+//将游戏的状态存到文件中
 void save_game(const int (*box)[4], int step, int point)
 {
 	FILE *fp = fopen("game_file.bat", "w");
@@ -19,6 +20,7 @@ void save_game(const int (*box)[4], int step, int point)
 	fclose(fp);
 }
 
+//将保存的游戏状态恢复到界面上
 void set_game(int (*box)[4], int *step, int *point)
 {
 	FILE *fp = fopen("game_file.bat", "r");
@@ -27,7 +29,7 @@ void set_game(int (*box)[4], int *step, int *point)
 	{
 		for (int j = 0; j < 4; ++j)
 		{
-			fscanf(fp, "%d", box[i] + j);
+			fscanf(fp, "%d", box[i] + j);   ///box[i]+j 等同于 &box[i][j]
 		}
 	}
 

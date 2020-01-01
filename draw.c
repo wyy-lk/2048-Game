@@ -13,30 +13,34 @@ static void draw_info(int state);
 static void display_num(int a);
 static void display_block(int a);
 
+//画出整个游戏的界面
 void draw_from (const int (*box)[4], int step, int point, int state)
 {
+	//显示游戏标题，步数，分数
 	print_step_and_point(step, point);
-	
+	//显示游戏画面
 	draw_2048(box);	
-
+	//显示游戏状态 胜利 失败 游戏中
 	draw_info(state);
-
+	//在最后再添上一行黑色背景行
 	back_to_first_line();
 }
 
+//清屏
 void clean_screen()
 {
-	printf("\033[2J");
+	printf("\033[2J");   //清屏
 }
 
+//停止画面的显示
 void stop_draw()	
 {
 	printf("\33[?25l\33[27B");
 }
 
+//显示游戏标题，步数，分数
 void print_step_and_point(int step, int point)
 {				
-	//draw_dark_line();
 	printf("\t\033[1;40m%34s\033[0m\n","  __   __        __  ");
 	printf("\t\033[1;40m%34s\033[0m\n","  __| |  | |__| |__| ");
 	printf("\t\033[1;40m%34s\033[0m\n"," |__  |__|    | |__| ");
@@ -45,11 +49,13 @@ void print_step_and_point(int step, int point)
 	draw_dark_line(); 
 } 
 
+//显示游戏画面
 void draw_2048(const int (*box)[4])
 {			
 	draw_light_line(); 
 	for (int i = 0; i < 4; ++i)
 	{
+		//第一行
 		printf("\t");
 		for (int j = 0; j < 4; ++j)
 		{
@@ -57,7 +63,8 @@ void draw_2048(const int (*box)[4])
 			display_block(box[i][j]);
 		}
 		draw_light_block();
-
+		
+		//第二行 填数字
 		printf("\n\t");;
 		for (int j = 0; j < 4; ++j)
 		{
@@ -65,7 +72,8 @@ void draw_2048(const int (*box)[4])
 			display_num(box[i][j]);
 		}
 		draw_light_block();
-
+		
+		//第三行
 		printf("\n\t");
 		for (int j = 0; j < 4; ++j)
 		{
@@ -74,12 +82,14 @@ void draw_2048(const int (*box)[4])
 		}
 		draw_light_block();
 
+		//第四行
 		printf("\n");
 		draw_light_line();
 	}
 
 }
 
+//显示游戏状态 胜利 失败 游戏中
 void draw_info(int state)
 {
 	draw_dark_line();		
@@ -105,6 +115,7 @@ void draw_info(int state)
 	draw_dark_line();
 }
 
+//显示数字
 void display_num(int a)
 {
 	switch (a)
@@ -136,6 +147,7 @@ void display_num(int a)
 		default: break;
 	}
 }
+
 
 void display_block(int a)
 {
